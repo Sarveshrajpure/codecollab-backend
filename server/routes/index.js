@@ -7,11 +7,6 @@ const routesIndex = [
     path: "/auth",
     route: authRoute,
   },
-  //   {
-  //     path: "/user",
-  //     route: userRoute,
-  //   },
-
 ];
 
 routesIndex.forEach((route) => {

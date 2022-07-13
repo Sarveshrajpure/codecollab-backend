@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const mongooseSanitize = require("express-mongo-sanitize");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const xss = require("xss-clean");
 require("dotenv").config();
 const routes = require("./routes");
@@ -19,7 +20,10 @@ const connection = mongoose.connection;
 app.use(cors());
 
 //BODY PARSER
-app.use(express.json);
+app.use(express.json());
+
+//COOKIE-PARSER
+app.use(cookieParser());
 
 //SANITIZE JSON
 app.use(xss());

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema(
   {
@@ -15,7 +16,7 @@ const userSchema = mongoose.Schema(
         }
       },
     },
-    passowrd: {
+    password: {
       type: String,
       required: true,
       trim: true,
@@ -48,7 +49,7 @@ userSchema.pre("save", async function (next) {
 
     const hash = await bcrypt.hash(user.password, salt);
 
-    user.passowrd = hash;
+    user.password = hash;
   }
   next();
 });
@@ -56,7 +57,7 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.generateAuthToken = function () {
   let user = this;
 
-  const userObj = { sub: user._id.toHexString(), email: user.email };
+  const userObj = { id: user._id.toHexString() };
 
   const token = jwt.sign(userObj, process.env.APP_SECRET, { expiresIn: "1d" });
   return token;
@@ -79,7 +80,6 @@ userSchema.statics.emailTaken = async function (email) {
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
   // candidatePassword == unhashed password
-
   const user = this;
   const match = await bcrypt.compare(candidatePassword, user.password);
   return match;

@@ -17,10 +17,7 @@ const authController = {
       if (value) {
         //chechking if email is taken
         if (await User.emailTaken(value.email)) {
-          throw new ApiError(
-            httpStatus.BAD_REQUEST,
-            "User with this email already exists"
-          );
+          throw new ApiError(httpStatus.BAD_REQUEST, "User already exists!");
         }
 
         let user = await authService.createUser(
@@ -40,7 +37,37 @@ const authController = {
     }
   },
 
-  async signin(req, res, next) {},
-  async isauth(req, res, next) {},
+  async signin(req, res, next) {
+    try {
+      //validating user login data using joi
+      let value = await loginSchema.validateAsync(req.body);
+
+      if (value) {
+        const user = await authService.signInEmailAndPassword(
+          value.email,
+          value.password
+        );
+
+        //setting access token
+        let token = await authService.genAuthToken(user);
+
+        res
+          .cookie("x-access-token", token, { httpOnly: true })
+          .status(httpStatus.OK)
+          .send({
+            user,
+          });
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+  async isauth(req, res, next) {
+    let auth = req.authenticated;
+
+    if (auth) {
+      res.status(httpStatus.OK).send("Authenticated successfully!");
+    }
+  },
 };
 module.exports = authController;

@@ -7,6 +7,9 @@ const validateToken = async (token) => {
   return jwt.verify(token, process.env.App_SECRET);
 };
 
+const decodeToken = async (token)=>{
+
+}
 const findUserByEmail = (email) => {
   return User.findOne({ email });
 };

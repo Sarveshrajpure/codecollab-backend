@@ -35,7 +35,7 @@ const signInEmailAndPassword = async (email, password) => {
       throw new ApiError(httpStatus.UNAUTHORIZED, "Wrong password");
     }
 
-    return error;
+    return user;
   } catch (error) {
     throw error;
   }
