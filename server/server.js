@@ -8,6 +8,48 @@ const xss = require("xss-clean");
 require("dotenv").config();
 const routes = require("./routes");
 const { convertToApiError, handleError } = require("./middlewares/apiError");
+const http = require("http");
+const { Server } = require("socket.io");
+const CONSTANTS = require("./constants/Constants");
+
+//Socket io
+const server = http.createServer(app);
+const io = new Server(server);
+const socketIoPort = process.env.SOCKETPORT || 5000;
+server.listen(socketIoPort, () => {
+  console.log(`Listening on port ${socketIoPort} for socket connections`);
+});
+
+const userSocketMap = {};
+
+const getAllConnectedClients = (roomId) => {
+  return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
+    (socketId) => {
+      return { socketId, userName: userSocketMap[socketId] };
+    }
+  );
+};
+io.on("connection", (socket) => {
+  console.log("Socket connected", socket.id);
+  socket.on(CONSTANTS.SOCKET_ACTIONS.JOIN, ({ roomId, userName }) => {
+    userSocketMap[socket.id] = userName;
+    socket.join(roomId);
+
+    let clients = getAllConnectedClients(roomId);
+
+    clients.forEach((socketId) => {
+      io.to(socketId).emit(
+        CONSTANTS.SOCKET_ACTIONS.JOINED,
+        {
+          clients,
+          userName,
+          socketId: socket.id,
+        },
+        console.log("joined emitted")
+      );
+    });
+  });
+});
 
 //MongoDb Connection
 const mongoUri = `mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASS}@${process.env.DB_HOST}?retryWrites=true&w=majority`;
