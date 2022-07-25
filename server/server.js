@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const mongooseSanitize = require("express-mongo-sanitize");
 const cors = require("cors");
+
 const cookieParser = require("cookie-parser");
 const xss = require("xss-clean");
 require("dotenv").config();
@@ -70,6 +71,8 @@ app.use(mongooseSanitize());
 //CONFIG FOR IMAGE UPLOAD
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+
 
 //ROUTES
 app.use("/api", routes);
