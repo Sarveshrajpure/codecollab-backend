@@ -38,15 +38,11 @@ io.on("connection", (socket) => {
     let clients = getAllConnectedClients(roomId);
 
     clients.forEach((socketId) => {
-      io.to(socketId).emit(
-        CONSTANTS.SOCKET_ACTIONS.JOINED,
-        {
-          clients,
-          userName,
-          socketId: socket.id,
-        },
-        console.log("joined emitted")
-      );
+      io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.JOINED, {
+        clients,
+        userName,
+        socketId: socket.id,
+      });
     });
   });
 });
