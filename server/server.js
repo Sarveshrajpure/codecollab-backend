@@ -3,17 +3,17 @@ const app = express();
 const mongoose = require("mongoose");
 const mongooseSanitize = require("express-mongo-sanitize");
 const cors = require("cors");
-
 const cookieParser = require("cookie-parser");
 const xss = require("xss-clean");
 require("dotenv").config();
 const routes = require("./routes");
 const { convertToApiError, handleError } = require("./middlewares/apiError");
-const http = require("http");
-const { Server } = require("socket.io");
+
 const CONSTANTS = require("./constants/Constants");
 
 //Socket io
+const http = require("http");
+const { Server } = require("socket.io");
 const server = http.createServer(app);
 const io = new Server(server);
 const socketIoPort = process.env.SOCKETPORT || 5000;
@@ -30,21 +30,39 @@ const getAllConnectedClients = (roomId) => {
     }
   );
 };
+
 io.on("connection", (socket) => {
   console.log("Socket connected", socket.id);
+
   socket.on(CONSTANTS.SOCKET_ACTIONS.JOIN, ({ roomId, userName }) => {
     userSocketMap[socket.id] = userName;
     socket.join(roomId);
-
-    let clients = getAllConnectedClients(roomId);
-
-    clients.forEach((socketId) => {
+    const clients = getAllConnectedClients(roomId);
+    clients.forEach(({ socketId }) => {
       io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.JOINED, {
         clients,
         userName,
         socketId: socket.id,
       });
     });
+  });
+
+  socket.on(CONSTANTS.SOCKET_ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
+    console.log("receieving", code);
+    socket.in(roomId).emit(CONSTANTS.SOCKET_ACTIONS.CODE_CHANGE, { code });
+  });
+
+  socket.on("disconnecting", () => {
+    const rooms = [...socket.rooms];
+
+    rooms.forEach((roomId) => {
+      socket.in(roomId).emit(CONSTANTS.SOCKET_ACTIONS.DISCONNECTED, {
+        socketId: socket.id,
+        userName: userSocketMap[socket.id],
+      });
+    });
+    delete userSocketMap[socket.id];
+    socket.leave();
   });
 });
 
@@ -71,8 +89,6 @@ app.use(mongooseSanitize());
 //CONFIG FOR IMAGE UPLOAD
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
-
-
 
 //ROUTES
 app.use("/api", routes);
