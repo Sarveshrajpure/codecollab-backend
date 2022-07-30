@@ -15,7 +15,7 @@ const auth = () => async (req, res, next) => {
 
     let validToken = await userService.validateToken(accessToken);
 
-    if (validToken) {
+    if (validToken && accessToken) {
       req.authenticated = validToken;
     }
     next();

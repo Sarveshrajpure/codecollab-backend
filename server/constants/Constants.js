@@ -13,7 +13,8 @@ module.exports = {
     JOINED: "joined",
     DISCONNECTED: "disconnected",
     CODE_CHANGE: "code-change",
-    SYNC_CODE: "sync-code",
+    SYNC_CODE: "sync_code",
+    LISTEN_SYNC_CODE: "listen-sync-code",
     LEAVE: "leave",
   },
   COMPILER_STATUES: [
