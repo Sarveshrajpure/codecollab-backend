@@ -48,12 +48,25 @@ io.on("connection", (socket) => {
   });
 
   socket.on(CONSTANTS.SOCKET_ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
-    console.log("receieving", code);
     socket.in(roomId).emit(CONSTANTS.SOCKET_ACTIONS.CODE_CHANGE, { code });
   });
 
   socket.on(CONSTANTS.SOCKET_ACTIONS.SYNC_CODE, ({ socketId, code }) => {
     io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.CODE_CHANGE, { code });
+  });
+
+  socket.on(CONSTANTS.SOCKET_ACTIONS.SYNC_LANGUAGE, ({ socketId, lang }) => {
+    io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, { lang });
+  });
+
+  socket.on(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, ({ roomId, lang }) => {
+    io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, { lang });
+  });
+  socket.on(CONSTANTS.SOCKET_ACTIONS.SYNC_OUTPUT, ({ socketId, output }) => {
+    io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, { output });
+  });
+  socket.on(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, ({ roomId, output }) => {
+    io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, { output });
   });
 
   socket.on("disconnecting", () => {
