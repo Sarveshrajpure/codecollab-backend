@@ -7,6 +7,6 @@ const router = express.Router();
 router.post("/create", auth(), workspaceController.create);
 
 //api/workspace/delete
-//router.post("/delete", workspaceController.delete);
+router.post("/delete", auth(), workspaceController.delete);
 
 module.exports = router;
