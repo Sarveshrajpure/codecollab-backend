@@ -56,18 +56,36 @@ io.on("connection", (socket) => {
   });
 
   socket.on(CONSTANTS.SOCKET_ACTIONS.SYNC_LANGUAGE, ({ socketId, lang }) => {
-    io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, { lang });
+    io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, {
+      lang,
+    });
   });
 
-  socket.on(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, ({ roomId, lang }) => {
-    io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, { lang });
-  });
+  socket.on(
+    CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE,
+    ({ roomId, lang, userName }) => {
+      console.log(userName);
+      io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, {
+        lang,
+        userName,
+      });
+    }
+  );
   socket.on(CONSTANTS.SOCKET_ACTIONS.SYNC_OUTPUT, ({ socketId, output }) => {
-    io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, { output });
+    io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, {
+      output,
+    });
   });
-  socket.on(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, ({ roomId, output }) => {
-    io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, { output });
-  });
+
+  socket.on(
+    CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE,
+    ({ roomId, output, userName }) => {
+      io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, {
+        output,
+        userName,
+      });
+    }
+  );
 
   socket.on("disconnecting", () => {
     const rooms = [...socket.rooms];
