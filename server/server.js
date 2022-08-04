@@ -64,7 +64,6 @@ io.on("connection", (socket) => {
   socket.on(
     CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE,
     ({ roomId, lang, userName }) => {
-      console.log(userName);
       io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, {
         lang,
         userName,
