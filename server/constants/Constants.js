@@ -7,6 +7,7 @@ module.exports = {
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/,
     phoneRegex: /^[6-9]\d{9}$/,
     tableNumberRegEx: /^[1-9][0-9]*$/,
+    noWhiteSpaces: /^\S*$/,
   },
   SOCKET_ACTIONS: {
     JOIN: "join",

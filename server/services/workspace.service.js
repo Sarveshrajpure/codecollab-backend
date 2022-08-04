@@ -1,6 +1,17 @@
 const { Workspace } = require("../models/workspace");
-const ApiError = require("../middlewares/apiError");
-const httpStatus = require("http-status");
+
+const getAllWorkspaces = async (userId) => {
+  try {
+    let getAllWorkspcaesByUserId = await Workspace.find(
+      { userId },
+      "name userId createdAt"
+    );
+
+    return getAllWorkspcaesByUserId;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const createWorkspace = async (name, userId) => {
   try {
@@ -34,4 +45,9 @@ const deleteWorkspace = async (workspaceId) => {
     throw error;
   }
 };
-module.exports = { createWorkspace, checkWorkspaceName, deleteWorkspace };
+module.exports = {
+  getAllWorkspaces,
+  createWorkspace,
+  checkWorkspaceName,
+  deleteWorkspace,
+};

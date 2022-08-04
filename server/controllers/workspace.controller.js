@@ -1,12 +1,24 @@
-const { ApiError } = require("../middlewares/apiError");
 const httpStatus = require("http-status");
 const { workspaceService, documentService } = require("../services");
 const {
+  getAllWorkspacesSchema,
   createWorkspaceSchema,
   deleteWorkspaceSchema,
 } = require("../validations/workspaceValidations");
 
 const workspaceController = {
+  async getAll(req, res, next) {
+    try {
+      let value = await getAllWorkspacesSchema.validateAsync(req.body);
+
+      let workspaces = await workspaceService.getAllWorkspaces(value.userId);
+
+      res.status(200).send(workspaces);
+    } catch (error) {
+      next(error);
+    }
+  },
+
   async create(req, res, next) {
     try {
       let value = await createWorkspaceSchema.validateAsync(req.body);
