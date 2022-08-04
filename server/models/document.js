@@ -9,15 +9,15 @@ const documentSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    content: {
+    fileContent: {
       type: String,
     },
     fileExtension: {
-      type: "string",
-      maxLength: "50",
+      type: String,
+      maxLength: 50,
       trim: true,
     },
-    workSpaceId: {
+    workspaceId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "workspace",
       required: true,

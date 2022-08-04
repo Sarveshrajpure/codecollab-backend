@@ -18,6 +18,11 @@ const workspaceSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+workspaceSchema.pre("save", function (next) {
+  let workspace = this;
+  workspace.name = workspace.name.replace(/ /g, "");
+  next();
+});
 const Workspace = mongoose.model("Workspace", workspaceSchema);
 
 module.exports = { Workspace };
