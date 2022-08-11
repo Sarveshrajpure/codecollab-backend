@@ -1,11 +1,12 @@
 const { ApiError } = require("../middlewares/apiError");
 const { User } = require("../models/user");
-const { authService } = require("../services/");
+const { authService, userService } = require("../services/");
 const {
   registerSchema,
   loginSchema,
 } = require("../validations/regitserLoginValidations");
 const httpStatus = require("http-status");
+require("dotenv").config();
 
 const authController = {
   async register(req, res, next) {
@@ -64,9 +65,11 @@ const authController = {
   },
   async isauth(req, res, next) {
     let auth = req.authenticated;
+    let _id = auth.id;
+    let user = await userService.findUserById(_id);
 
-    if (auth) {
-      res.status(httpStatus.OK).send("Authenticated successfully!");
+    if (auth && user) {
+      res.status(httpStatus.OK).send(user);
     }
   },
 };

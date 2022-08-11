@@ -7,15 +7,13 @@ const validateToken = async (token) => {
   return jwt.verify(token, process.env.App_SECRET);
 };
 
-const decodeToken = async (token)=>{
-
-}
+const decodeToken = async (token) => {};
 const findUserByEmail = (email) => {
   return User.findOne({ email });
 };
 
 const findUserById = async (_id) => {
-  return User.findById(_id);
+  return User.findById({ _id });
 };
 
 module.exports = {

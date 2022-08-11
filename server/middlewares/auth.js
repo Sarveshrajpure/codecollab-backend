@@ -7,20 +7,19 @@ const { ApiError } = require("./apiError");
 const auth = () => async (req, res, next) => {
   try {
     let accessToken = req.cookies["x-access-token"];
-    console.log(accessToken);
 
     if (!accessToken) {
-      res.status(httpStatus.UNAUTHORIZED).send({ error: "Unauthorized user!" });
+      throw new ApiError(httpStatus.UNAUTHORIZED, "Unauthorized user!");
     }
 
     let validToken = await userService.validateToken(accessToken);
 
-    if (validToken) {
+    if (validToken && accessToken) {
       req.authenticated = validToken;
+      next();
     }
-    next();
   } catch (error) {
-    res.status(httpStatus.UNAUTHORIZED).send({ error: error });
+    next(error);
   }
 };
 
