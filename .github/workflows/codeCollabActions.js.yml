@@ -24,6 +24,4 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: |
-          echo $DB_ADMIN
-        env: DB_ADMIN:${{secrets.DB_ADMIN}}
+      - run: npm i
