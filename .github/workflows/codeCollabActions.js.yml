@@ -6,8 +6,6 @@ name: Node.js CI
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   build:
@@ -25,5 +23,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm i
-      - run : sudo pm2 restart cc-backend
+      - run : sudo pm2 restart cc_backend
       
