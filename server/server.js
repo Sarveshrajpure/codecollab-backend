@@ -13,13 +13,9 @@ const CONSTANTS = require("./constants/Constants");
 
 //Socket io
 const http = require("http");
-const { Server } = require("socket.io");
 const server = http.createServer(app);
-const io = new Server(server);
+const io = require("socket.io")(server);
 const socketIoPort = process.env.SOCKETPORT || 5000;
-server.listen(socketIoPort, () => {
-  console.log(`Listening on port ${socketIoPort} for socket connections`);
-});
 
 const userSocketMap = {};
 
@@ -134,6 +130,6 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 3002;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on ${port}`);
 });
