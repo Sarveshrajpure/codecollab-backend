@@ -23,5 +23,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm i
-      - run : sudo pm2 restart cc_backend
+      - run : pm2 restart cc_backend
       
