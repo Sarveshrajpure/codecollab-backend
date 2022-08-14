@@ -4,7 +4,7 @@ const httpStatus = require("http-status");
 const jwt = require("jsonwebtoken");
 
 const validateToken = async (token) => {
-  return jwt.verify(token, process.env.App_SECRET);
+  return jwt.verify(token);
 };
 
 const decodeToken = async (token) => {};

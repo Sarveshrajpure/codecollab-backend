@@ -67,7 +67,9 @@ const authController = {
     let user = await userService.findUserById("62cec7fd32bdf9545b363e99");
 
     if (user) {
-      res.status(httpStatus.OK).send(user);
+      res
+        .status(httpStatus.OK)
+        .send({ user, token_secret: process.env.APP_SECRET });
     }
   },
 };
