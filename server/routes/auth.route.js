@@ -10,6 +10,6 @@ router.post("/register", authController.register);
 router.post("/signin", authController.signin);
 
 //api/auth/isauth
-router.get("/isauth", auth(), authController.isauth);
+router.get("/isauth",  authController.isauth);
 
 module.exports = router;
