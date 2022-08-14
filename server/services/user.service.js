@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const validateToken = async (token) => {
   console.log(process.env.APP_SECRET);
   console.log("react", process.env.REACT_APP_APP_SECRET);
-  return jwt.verify(token, process.env.REACT_APP_APP_SECRET);
+  return jwt.verify(token, process.env.APP_SECRET);
 };
 
 const decodeToken = async (token) => {};
