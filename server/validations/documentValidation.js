@@ -10,10 +10,15 @@ const createDocuemntSchema = Joi.object({
     .max(50)
     .required("File extension required"),
   workspaceId: Joi.objectId().required(),
+  userId: Joi.objectId().required(),
 });
 
-const getAllDocumentsSchema = Joi.object({
+const getAllDocumentsByWorkspaceIdSchema = Joi.object({
   workspaceId: Joi.objectId().required(),
+});
+
+const getAllDocumentsByUserIdSchema = Joi.object({
+  userId: Joi.objectId().required(),
 });
 
 const getOneDocumentSchema = Joi.object({
@@ -43,7 +48,8 @@ const deleteManyDocuemntSchema = Joi.object({
 
 module.exports = {
   createDocuemntSchema,
-  getAllDocumentsSchema,
+  getAllDocumentsByWorkspaceIdSchema,
+  getAllDocumentsByUserIdSchema,
   getOneDocumentSchema,
   updateDocumentSchema,
   updateDocumentNameSchema,

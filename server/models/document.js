@@ -22,6 +22,11 @@ const documentSchema = mongoose.Schema(
       ref: "workspace",
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -2,7 +2,8 @@ const { ApiError } = require("../middlewares/apiError");
 const httpStatus = require("http-status");
 const {
   createDocuemntSchema,
-  getAllDocumentsSchema,
+  getAllDocumentsByWorkspaceIdSchema,
+  getAllDocumentsByUserIdSchema,
   getOneDocumentSchema,
   deleteDocuemntSchema,
   deleteManyDocuemntSchema,
@@ -27,7 +28,8 @@ const documentController = {
           value.fileName,
           value.fileContent,
           value.fileExtension,
-          value.workspaceId
+          value.workspaceId,
+          value.userId
         );
 
         res.status(httpStatus.CREATED).send(createDocument);
@@ -41,16 +43,36 @@ const documentController = {
     }
   },
 
-  async getAll(req, res, next) {
+  async getAllByWorkspaceId(req, res, next) {
     try {
-      let value = await getAllDocumentsSchema.validateAsync(req.body);
-
-      let getAllDocumentsByWorspaceId = await documentService.getAllDocuments(
-        value.workspaceId
+      let value = await getAllDocumentsByWorkspaceIdSchema.validateAsync(
+        req.body
       );
+
+      let getAllDocumentsByWorspaceId =
+        await documentService.getAllDocumentsByWorkspaceId(value.workspaceId);
 
       if (getAllDocumentsByWorspaceId) {
         res.status(httpStatus.OK).send(getAllDocumentsByWorspaceId);
+      } else {
+        res
+          .status(httpStatus.BAD_REQUEST)
+          .send("No documents found for this workspace");
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getAllByUserId(req, res, next) {
+    try {
+      let value = await getAllDocumentsByUserIdSchema.validateAsync(req.body);
+
+      let getAllDocumentsByUserId =
+        await documentService.getAllDocumentsByUserId(value.userId);
+
+      if (getAllDocumentsByUserId) {
+        res.status(httpStatus.OK).send(getAllDocumentsByUserId);
       } else {
         res
           .status(httpStatus.BAD_REQUEST)

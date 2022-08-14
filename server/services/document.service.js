@@ -20,7 +20,8 @@ const createDocument = async (
   fileName,
   fileContent,
   fileExtension,
-  workspaceId
+  workspaceId,
+  userId
 ) => {
   try {
     const documentCreated = new Document({
@@ -28,6 +29,7 @@ const createDocument = async (
       fileContent,
       fileExtension,
       workspaceId,
+      userId,
     });
     await documentCreated.save();
     return documentCreated;
@@ -36,7 +38,7 @@ const createDocument = async (
   }
 };
 
-const getAllDocuments = async (workspaceId) => {
+const getAllDocumentsByWorkspaceId = async (workspaceId) => {
   try {
     let getAllDocumentsByWorspaceId = await Document.find(
       { workspaceId },
@@ -46,6 +48,21 @@ const getAllDocuments = async (workspaceId) => {
     });
 
     return getAllDocumentsByWorspaceId;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getAllDocumentsByUserId = async (userId) => {
+  try {
+    let getAllDocumentsByUserId = await Document.find(
+      { userId },
+      "fileName fileContent fileExtension createdAt"
+    ).sort({
+      updatedAt: -1,
+    });
+
+    return getAllDocumentsByUserId;
   } catch (error) {
     throw error;
   }
@@ -113,7 +130,8 @@ const deleteBlukDocument = async (workspaceId) => {
 module.exports = {
   checkDocumentName,
   createDocument,
-  getAllDocuments,
+  getAllDocumentsByWorkspaceId,
+  getAllDocumentsByUserId,
   getOneDocument,
   updateDocument,
   updateDocumentName,

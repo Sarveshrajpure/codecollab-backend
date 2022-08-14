@@ -3,8 +3,15 @@ const documentController = require("../controllers/document.controller");
 const auth = require("../middlewares/auth");
 const router = express.Router();
 
-//api/document/getall
-router.get("/getall", auth(), documentController.getAll);
+//api/document/getallbyworkspaceid
+router.get(
+  "/getallbyworkspaceid",
+  auth(),
+  documentController.getAllByWorkspaceId
+);
+
+//api/document/getallbyuserid
+router.get("/getallbyuserid", auth(), documentController.getAllByUserId);
 
 //api/document/getone
 router.get("/getone", auth(), documentController.getOne);
