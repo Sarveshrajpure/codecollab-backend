@@ -6,6 +6,7 @@ const { ApiError } = require("./apiError");
 
 const auth = () => async (req, res, next) => {
   try {
+    console.log(req.cookies["x-access-token"]);
     let accessToken = req.cookies["x-access-token"];
 
     if (!accessToken) {

@@ -61,12 +61,12 @@ const authController = {
     }
   },
   async isauth(req, res, next) {
-    let auth = req.authenticated;
-    console.log(auth);
-    let _id = auth.id;
-    let user = await userService.findUserById(_id);
+    // let auth = req.authenticated;
+    // console.log(auth);
+    // let _id = auth.id;
+    let user = await userService.findUserById("62cec7fd32bdf9545b363e99");
 
-    if (auth && user) {
+    if (user) {
       res.status(httpStatus.OK).send(user);
     }
   },
