@@ -61,15 +61,13 @@ const authController = {
     }
   },
   async isauth(req, res, next) {
-    // let auth = req.authenticated;
-    // console.log(auth);
-    // let _id = auth.id;
-    let user = await userService.findUserById("62cec7fd32bdf9545b363e99");
+    let auth = req.authenticated;
+    console.log(auth);
+    let _id = auth.id;
+    let user = await userService.findUserById(_id);
 
-    if (user) {
-      res
-        .status(httpStatus.OK)
-        .send({ user, token_secret: process.env.APP_SECRET });
+    if (auth && user) {
+      res.status(httpStatus.OK).send(user);
     }
   },
 };
