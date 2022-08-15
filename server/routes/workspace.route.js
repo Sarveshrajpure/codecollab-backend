@@ -4,7 +4,7 @@ const auth = require("../middlewares/auth");
 const router = express.Router();
 
 //api/workspace/getall
-router.get("/getall", auth(), workspaceController.getAll);
+router.post("/getall", auth(), workspaceController.getAll);
 
 //api/workspace/create
 router.post("/create", auth(), workspaceController.create);

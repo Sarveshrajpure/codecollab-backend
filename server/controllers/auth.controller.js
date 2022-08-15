@@ -62,7 +62,7 @@ const authController = {
   },
   async isauth(req, res, next) {
     let auth = req.authenticated;
-    console.log(auth);
+
     let _id = auth.id;
     let user = await userService.findUserById(_id);
 
