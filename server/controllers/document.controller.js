@@ -61,6 +61,7 @@ const documentController = {
           .send("No documents found for this workspace");
       }
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },

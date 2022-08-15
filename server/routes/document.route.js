@@ -4,17 +4,17 @@ const auth = require("../middlewares/auth");
 const router = express.Router();
 
 //api/document/getallbyworkspaceid
-router.get(
+router.post(
   "/getallbyworkspaceid",
   auth(),
   documentController.getAllByWorkspaceId
 );
 
 //api/document/getallbyuserid
-router.get("/getallbyuserid", auth(), documentController.getAllByUserId);
+router.post("/getallbyuserid", auth(), documentController.getAllByUserId);
 
 //api/document/getone
-router.get("/getone", auth(), documentController.getOne);
+router.post("/getone", auth(), documentController.getOne);
 
 //api/document/create
 router.post("/create", auth(), documentController.create);

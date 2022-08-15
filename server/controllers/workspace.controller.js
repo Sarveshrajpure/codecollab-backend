@@ -8,7 +8,6 @@ const {
 
 const workspaceController = {
   async getAll(req, res, next) {
-    console.log(req.body);
     try {
       let value = await getAllWorkspacesSchema.validateAsync(req.body);
 
@@ -16,6 +15,7 @@ const workspaceController = {
 
       res.status(200).send(workspaces);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },
