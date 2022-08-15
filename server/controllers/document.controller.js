@@ -26,7 +26,7 @@ const documentController = {
       if (checkDocumentName === null) {
         let createDocument = await documentService.createDocument(
           value.fileName,
-          value.fileContent,
+          btoa(value.fileContent),
           value.fileExtension,
           value.workspaceId,
           value.userId
@@ -39,6 +39,7 @@ const documentController = {
           .send({ message: "Document already exists!" });
       }
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },
