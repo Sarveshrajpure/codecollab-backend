@@ -16,6 +16,7 @@ const workspaceController = {
 
       res.status(200).send(workspaces);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },
