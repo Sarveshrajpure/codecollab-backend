@@ -19,14 +19,14 @@ router.post("/getone", auth(), documentController.getOne);
 //api/document/create
 router.post("/create", auth(), documentController.create);
 
-//api/document/update
+//api/document/updatecontent
 router.put("/updatecontent", auth(), documentController.update);
 
 //api/document/updateDocumentName
 router.put("/updatedocname", auth(), documentController.UpdateName);
 
 //api/document/delete
-router.delete("/delete", auth(), documentController.delete);
+router.post("/delete", auth(), documentController.delete);
 
 //api/document/deleteMany
 router.delete("/deletemany", auth(), documentController.deleteMany);

@@ -49,4 +49,15 @@ const genAuthToken = (user) => {
     throw error;
   }
 };
-module.exports = { createUser, signInEmailAndPassword, genAuthToken };
+const setExpiry = (days) => {
+  let date = new Date(Date.now() + days * 24 * 3600000);
+
+  return date;
+};
+
+module.exports = {
+  createUser,
+  signInEmailAndPassword,
+  genAuthToken,
+  setExpiry,
+};
