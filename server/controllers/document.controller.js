@@ -39,7 +39,6 @@ const documentController = {
           .send({ message: "Document already exists!" });
       }
     } catch (error) {
-      console.log(error);
       next(error);
     }
   },
@@ -61,7 +60,6 @@ const documentController = {
           .send("No documents found for this workspace");
       }
     } catch (error) {
-      console.log(error);
       next(error);
     }
   },
@@ -132,7 +130,7 @@ const documentController = {
         value.newName,
         value.fileExtension
       );
-      console.log(checkName);
+
       if (checkName === null) {
         let updateDocumentName = await documentService.updateDocumentName(
           value.documentId,
@@ -145,7 +143,7 @@ const documentController = {
       } else {
         res
           .status(httpStatus.BAD_REQUEST)
-          .send({ message: " A document already exists by this name!" });
+          .send({ message: " A file already exists by this name!" });
       }
     } catch (error) {
       next(error);
@@ -175,7 +173,6 @@ const documentController = {
 
   async deleteMany(req, res, next) {
     try {
-      console.log("in controller");
       let value = await deleteManyDocuemntSchema.validateAsync(req.body);
 
       let deleteManyDocuments = await documentService.deleteBlukDocument(

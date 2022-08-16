@@ -26,7 +26,7 @@ router.put("/updatecontent", auth(), documentController.update);
 router.put("/updatedocname", auth(), documentController.UpdateName);
 
 //api/document/delete
-router.delete("/delete", auth(), documentController.delete);
+router.post("/delete", auth(), documentController.delete);
 
 //api/document/deleteMany
 router.delete("/deletemany", auth(), documentController.deleteMany);

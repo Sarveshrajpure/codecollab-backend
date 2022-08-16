@@ -78,7 +78,7 @@ const compilerController = {
         })
         .catch((err) => {
           let error = err.response ? err.response.data : err;
-          console.log(error);
+          
         });
       // console.log("in compile");
       // res.status(httpStatus.OK).send(resultView);
