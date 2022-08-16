@@ -19,7 +19,7 @@ router.post("/getone", auth(), documentController.getOne);
 //api/document/create
 router.post("/create", auth(), documentController.create);
 
-//api/document/update
+//api/document/updatecontent
 router.put("/updatecontent", auth(), documentController.update);
 
 //api/document/updateDocumentName

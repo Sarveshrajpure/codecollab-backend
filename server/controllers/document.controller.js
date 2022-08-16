@@ -108,7 +108,7 @@ const documentController = {
 
       let updateDocument = await documentService.updateDocument(
         value.documentId,
-        value.fileContent
+        btoa(value.fileContent) 
       );
       if (updateDocument) {
         res.status(httpStatus.OK).send({ message: "Document updated!" });
