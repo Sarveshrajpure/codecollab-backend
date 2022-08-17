@@ -38,7 +38,7 @@ const checkWorkspaceName = async (name) => {
 };
 const deleteWorkspace = async (workspaceId) => {
   try {
-    let deleteWorkspace = await Workspace.deleteOne({ workspaceId });
+    let deleteWorkspace = await Workspace.deleteOne({ _id: workspaceId });
 
     return deleteWorkspace.deletedCount;
   } catch (error) {
