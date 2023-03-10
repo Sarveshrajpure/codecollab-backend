@@ -14,7 +14,7 @@ const checkStatus = async (token) => {
   };
   try {
     let response = await axios.request(options);
-    let statusId = response.data.status?.id;
+    let statusId = response.data.status ? response.data.status.id : null;
 
     // Processed - we have a result
     if (statusId === 1 || statusId === 2) {
