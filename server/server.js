@@ -103,6 +103,8 @@ mongoose.connect(mongoUri);
 
 const connection = mongoose.connection;
 
+app.set("trust proxy", 1);
+
 //CORS
 app.use(
   cors({

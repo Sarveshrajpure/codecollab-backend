@@ -56,6 +56,7 @@ const authController = {
           .cookie("x-access-token", token, {
             expires: authService.setExpiry(7),
             sameSite: "none",
+            secure: true,
           })
           .status(httpStatus.OK)
           .send({
