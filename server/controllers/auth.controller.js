@@ -53,9 +53,14 @@ const authController = {
         let token = await authService.genAuthToken(user);
 
         res
-          .cookie("x-access-token", token, {
-            expires: authService.setExpiry(7),
-          })
+          .cookie(
+            "x-access-token",
+            token,
+            {
+              expires: authService.setExpiry(7),
+            },
+            { sameSite: "none" }
+          )
           .status(httpStatus.OK)
           .send({
             user,
