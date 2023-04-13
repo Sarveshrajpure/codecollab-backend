@@ -108,7 +108,7 @@ app.use(
   cors({
     origin: process.env.ORIGIN_FOR_CORS,
     methods: ["GET", "POST", "PUT"],
-    credentials: true,
+    credentials:true
   })
 );
 //BODY PARSER
