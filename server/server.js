@@ -107,7 +107,7 @@ const connection = mongoose.connection;
 app.use(
   cors({
     origin: process.env.ORIGIN_FOR_CORS,
-    methods
+    methods: ["GET", "POST", "PUT"],
   })
 );
 //BODY PARSER
