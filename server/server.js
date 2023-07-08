@@ -12,7 +12,7 @@ const { convertToApiError, handleError } = require("./middlewares/apiError");
 const CONSTANTS = require("./constants/Constants");
 
 //Socket io
-const http = require("http");
+const http = require("http ");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 const socketIoPort = process.env.SOCKETPORT || 5000;
