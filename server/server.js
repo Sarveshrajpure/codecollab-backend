@@ -20,11 +20,9 @@ const socketIoPort = process.env.SOCKETPORT || 5000;
 const userSocketMap = {};
 
 const getAllConnectedClients = (roomId) => {
-  return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
-    (socketId) => {
-      return { socketId, userName: userSocketMap[socketId] };
-    }
-  );
+  return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map((socketId) => {
+    return { socketId, userName: userSocketMap[socketId] };
+  });
 };
 
 io.on("connection", (socket) => {
@@ -57,30 +55,24 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on(
-    CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE,
-    ({ roomId, lang, userName }) => {
-      io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, {
-        lang,
-        userName,
-      });
-    }
-  );
+  socket.on(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, ({ roomId, lang, userName }) => {
+    io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.LANGUAGE_CHANGE, {
+      lang,
+      userName,
+    });
+  });
   socket.on(CONSTANTS.SOCKET_ACTIONS.SYNC_OUTPUT, ({ socketId, output }) => {
     io.to(socketId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, {
       output,
     });
   });
 
-  socket.on(
-    CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE,
-    ({ roomId, output, userName }) => {
-      io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, {
-        output,
-        userName,
-      });
-    }
-  );
+  socket.on(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, ({ roomId, output, userName }) => {
+    io.to(roomId).emit(CONSTANTS.SOCKET_ACTIONS.OUTPUT_CHANGE, {
+      output,
+      userName,
+    });
+  });
 
   socket.on("disconnecting", () => {
     const rooms = [...socket.rooms];
@@ -105,13 +97,25 @@ const connection = mongoose.connection;
 
 app.set("trust proxy", 1);
 
-//CORS
-app.use(
-  cors({
-    origin: process.env.ORIGIN_FOR_CORS,
-    credentials: true,
-  })
-);
+// CORS
+if (process.env.NODE_ENV === "production") {
+  app.use(
+    cors({
+      origin: process.env.ORIGIN_FOR_CORS,
+      methods: ["POST", "GET", "PUT", "DELETE"],
+      credentials: true,
+    })
+  );
+} else {
+  app.use(
+    cors({
+      origin: "*",
+      methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
+      allowedHeaders: ["Authorization", "Content-Type"],
+      credentials: true,
+    })
+  );
+}
 //BODY PARSER
 app.use(express.json());
 
