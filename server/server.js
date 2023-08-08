@@ -103,7 +103,7 @@ if (process.env.NODE_ENV === "production") {
     cors({
       origin: process.env.ORIGIN_FOR_CORS,
       methods: ["POST", "GET", "PUT", "DELETE"],
-      allowedHeaders: ["Authorization", "Content-Type"],
+      allowedHeaders: ["Content-Type", "authorization"],
       credentials: true,
     })
   );
@@ -112,7 +112,7 @@ if (process.env.NODE_ENV === "production") {
     cors({
       origin: process.env.ORIGIN_FOR_CORS,
       methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
-      allowedHeaders: ["Authorization", "Content-Type"],
+      allowedHeaders: ["Authorization", "Content-Type", "authorization"],
       credentials: true,
     })
   );
