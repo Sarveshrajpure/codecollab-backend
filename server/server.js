@@ -103,13 +103,14 @@ if (process.env.NODE_ENV === "production") {
     cors({
       origin: process.env.ORIGIN_FOR_CORS,
       methods: ["POST", "GET", "PUT", "DELETE"],
+      allowedHeaders: ["Authorization", "Content-Type"],
       credentials: true,
     })
   );
 } else {
   app.use(
     cors({
-      origin: "*",
+      origin: process.env.ORIGIN_FOR_CORS,
       methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
       allowedHeaders: ["Authorization", "Content-Type"],
       credentials: true,
