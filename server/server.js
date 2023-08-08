@@ -102,17 +102,17 @@ if (process.env.NODE_ENV === "production") {
   app.use(
     cors({
       origin: process.env.ORIGIN_FOR_CORS,
-      methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
-      allowedHeaders: ["Authorization", "Content-Type", "authorization"],
+      methods: ["POST", "GET", "PUT", "DELETE"],
+      allowedHeaders: ["authorization", "Content-Type"],
       credentials: true,
     })
   );
 } else {
   app.use(
     cors({
-      origin: process.env.ORIGIN_FOR_CORS,
+      origin: "http://localhost:3000",
       methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
-      allowedHeaders: ["Authorization", "Content-Type"],
+      allowedHeaders: ["authorization", "Content-Type"],
       credentials: true,
     })
   );
@@ -125,7 +125,6 @@ app.use(cookieParser());
 
 //SANITIZE JSON
 app.use(xss());
-app.use(mongooseSanitize());
 
 //CONFIG FOR IMAGE UPLOAD
 app.use(express.json({ limit: "50mb" }));
