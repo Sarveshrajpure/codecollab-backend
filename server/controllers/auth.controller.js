@@ -1,10 +1,7 @@
 const { ApiError } = require("../middlewares/apiError");
 const { User } = require("../models/user");
 const { authService, userService } = require("../services/");
-const {
-  registerSchema,
-  loginSchema,
-} = require("../validations/regitserLoginValidations");
+const { registerSchema, loginSchema } = require("../validations/regitserLoginValidations");
 const httpStatus = require("http-status");
 require("dotenv").config();
 
@@ -44,10 +41,7 @@ const authController = {
       let value = await loginSchema.validateAsync(req.body);
 
       if (value) {
-        const user = await authService.signInEmailAndPassword(
-          value.email,
-          value.password
-        );
+        const user = await authService.signInEmailAndPassword(value.email, value.password);
 
         //setting access token
         let token = await authService.genAuthToken(user);
@@ -61,6 +55,7 @@ const authController = {
           .status(httpStatus.OK)
           .send({
             user,
+            token,
           });
       }
     } catch (error) {
